@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { reviews } from '../data/reviews';
+import { site } from '../data/site';
+import { breadcrumbSchema, businessSchema } from '../lib/schema';
+---
+
+<Base
+  title="AyiTess reviews | 4.3 on Google from 121 reviews"
+  description="AyiTess Ltd is listed at 4.3 from 121 Google reviews and 3.6 from 17 Facebook reviews. Read the full reviews we can quote."
+  path="/reviews"
+  jsonLd={[
+    businessSchema(),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Reviews', path: '/reviews' },
+    ]),
+  ]}
+>
+  <Header />
+  <main id="content" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Reviews</span>
+    </nav>
+    <p class="eyebrow">Reviews</p>
+    <h1>What people said, in their words</h1>
+    <div class="score">
+      <div>
+        <strong>{site.googleRating}</strong>
+        <span>from {site.googleReviewCount} Google reviews</span>
+      </div>
+      <div>
+        <strong>{site.facebookRating}</strong>
+        <span>from {site.facebookReviewCount} Facebook reviews</span>
+      </div>
+    </div>
+    <p class="lede">
+      The scores above are the public totals. A 4.3 is not a row of perfect fives, and we are not going to pretend it is.
+      Below are reviews we can print in full. Names and wording are theirs.
+      <a href={site.googleProfile}>Open the Google profile</a> for the live list.
+    </p>
+    <div class="review-grid" style="margin-top: 28px">
+      {
+        reviews.map((review) => (
+          <article class="review-card">
+            <div class="stars" aria-label={`${review.stars} out of 5`}>{'★'.repeat(review.stars)}</div>
+            <p>{review.text}</p>
+            <footer>
+              <strong>{review.name}</strong>
+              <div>{review.dateLabel} · {review.topic}</div>
+              <div>{review.source}</div>
+            </footer>
+          </article>
+        ))
+      }
+    </div>
+  </main>
+  <Footer />
+</Base>

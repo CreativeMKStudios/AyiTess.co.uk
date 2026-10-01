@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import { breadcrumbSchema, businessSchema } from '../lib/schema';
+
+const title = 'About AyiTess | Carpenter and handyman in Barnsley';
+const description = 'AyiTess Ltd is based in Barnsley. Carpentry, handyman work, painting, moves, clearance and cleaning for homes and small businesses.';
+---
+
+<Base
+  title={title}
+  description={description}
+  path="/about"
+  jsonLd={[
+    businessSchema(),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'About', path: '/about' },
+    ]),
+  ]}
+>
+  <Header />
+  <main id="content" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>About</span>
+    </nav>
+    <p class="eyebrow">About us</p>
+    <h1>A Barnsley firm that does the work</h1>
+    <div class="prose">
+      <p>
+        AyiTess Ltd is a private company, number {site.companyNumber}, incorporated on 5 March 2022.
+        The Facebook page places the business in Barnsley. There is no shop counter. The crew comes to the house, the office, or the site.
+      </p>
+      <p>
+        The day-to-day work is carpentry and handyman jobs, plus painting, snagging, jet washing, and looking after properties for landlords and small firms.
+        The same company also moves houses and offices, clears non-hazardous waste, cleans, puts up scaffolding and netting, does garden work, and collects IT kit for recycling.
+      </p>
+      <h2>Who you will speak to</h2>
+      <p>
+        Rose is the name that comes up most when people write about the first phone call. She takes the details and stays in touch.
+        On the tools, customers have named Aaron, Daniel, Ben, Brian, Kyle, DJ, Danny, and Ali. Who turns up depends on the job.
+      </p>
+      <h2>Who we work for</h2>
+      <p>
+        Homeowners, landlords, shops, offices, and public-sector sites when the job fits. Our own advert says the work runs across the United Kingdom.
+        For a door or a flat pack, that usually means Yorkshire. For a full move or a big clearance, we will book further if the date and the access are clear.
+      </p>
+      <h2>What we will not pretend</h2>
+      <p>
+        We do not do gas work. We do not rewire houses or open fuse boards. We do not take asbestos or chemical waste.
+        If a repair needs a specialist, or a listed building needs consent, we say so before we start.
+      </p>
+      <p>
+        People also join the crew as staff or as subcontractors. If that is you, use the <a href="/contact">contact form</a> and say what trade you cover.
+      </p>
+    </div>
+  </main>
+  <Footer />
+</Base>

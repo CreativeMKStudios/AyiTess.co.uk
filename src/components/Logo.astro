@@ -1,0 +1,15 @@
+---
+interface Props {
+  title?: string;
+  mono?: boolean;
+}
+const { title = 'AyiTess', mono = false } = Astro.props;
+---
+
+<svg viewBox="0 0 64 64" role="img" aria-label={title}>
+  <path
+    fill="currentColor"
+    d="M8 56 28.2 8h7.6L56 56h-9.2l-3.3-8.2H20.5L17.2 56H8Zm15.2-15.6h17.6L32 18.2 23.2 40.4Z"
+  ></path>
+  <path fill={mono ? 'currentColor' : '#e4232b'} d="M36 22h22v7.2H51.2V56h-8.4V29.2H36V22Z"></path>
+</svg>

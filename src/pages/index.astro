@@ -1,0 +1,235 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Phone from '../components/Phone.astro';
+import Logo from '../components/Logo.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+import { areas } from '../data/areas';
+import { reviews } from '../data/reviews';
+import { photos } from '../data/photos';
+import { businessSchema } from '../lib/schema';
+import floor from '../assets/floor-plan.jpg';
+import sky from '../assets/sky.jpg';
+
+const skyImg = await getImage({ src: sky, width: 1800, format: 'webp', quality: 70 });
+const homeServices = [
+  services[0],
+  services[1],
+  services[2],
+  services[6],
+];
+const steps = [
+  {
+    no: '01',
+    label: 'Contact us',
+    title: 'Tell us what’s wrong',
+    text: 'Call, WhatsApp, or send the form. Say the job and the town. A photo helps.',
+  },
+  {
+    no: '02',
+    label: 'Pick a time',
+    title: 'Pick a time',
+    text: 'We say when we can come. If the slot is tight, we tell you.',
+  },
+  {
+    no: '03',
+    label: 'Agree a price',
+    title: 'Agree a price',
+    text: 'You get a price before we start. If the job changes, we stop and agree again.',
+  },
+  {
+    no: '04',
+    label: 'We do the work',
+    title: 'We do the work',
+    text: 'The crew turns up with the tools for the job you booked.',
+  },
+  {
+    no: '05',
+    label: 'You check it',
+    title: 'You check it',
+    text: 'Walk it with us before we leave. Say if something is not right.',
+  },
+];
+---
+
+<Base
+  title="AyiTess | Carpenter and handyman in Barnsley"
+  description="Carpentry, repairs, painting, moves and clearances. AyiTess is based in Barnsley and works across Yorkshire. Call 07535 063226."
+  path="/"
+  preload={skyImg.src}
+  jsonLd={[businessSchema()]}
+>
+  <div class="home-frame">
+    <Header />
+    <div class="split-copy">
+      <section id="content" class="services-block" aria-labelledby="services-title">
+        <div class="services-grid">
+          <Image
+            src={floor}
+            alt="A simple plan of a flat, with a blue ring over the living room"
+            class="floor-plan"
+            widths={[400, 700]}
+            sizes="(max-width: 980px) 70vw, 250px"
+          />
+          <div>
+            <p class="eyebrow">Our services</p>
+            <h1 id="services-title">Everything your home could need</h1>
+            <p class="lede">
+              From a door that sticks to a house move, we handle the practical jobs.
+              AyiTess is based in Barnsley. Tell us the town and the work.
+            </p>
+            <div class="accordion">
+              {
+                homeServices.map((service, index) => (
+                  <details open={index === 1}>
+                    <summary>
+                      {service.name}
+                      <span class="chevron" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                          <path d="M5 3.5 8.5 7 5 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <p>
+                      {service.summary} <a href={`/services/${service.slug}`}>Full details</a>
+                    </p>
+                  </details>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="steps-block" aria-labelledby="steps-title">
+        <div class="steps-head">
+          <p class="eyebrow">How it works</p>
+          <h2 id="steps-title">From the call to a finished job</h2>
+          <p class="lede">Five plain steps. No surprise extras once the price is agreed.</p>
+        </div>
+        <div class="step-row">
+          {
+            steps.map((step, index) => (
+              <article class:list={['step', { 'is-on': index === 0 }]}>
+                <span class="step-no">{step.no} {step.label}</span>
+                <strong>{step.title}</strong>
+                <p>{step.text}</p>
+                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                  {index === 0 && <path d="M16 18a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm-7 8c1.2-3 3.8-4.5 7-4.5S21.8 23 23 26" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />}
+                  {index === 1 && <path d="M8 12h16M11 8v3M21 8v3M8 12v12h16V12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />}
+                  {index === 2 && <path d="M8 16h6M18 16h6M16 8v6M16 18v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />}
+                  {index === 3 && <path d="M8 17.5 13 22l11-12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />}
+                  {index === 4 && <path d="M10 18h.1M16 12h.1M22 18h.1M16 22h.1" stroke="currentColor" stroke-width="3" stroke-linecap="round" />}
+                </svg>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+    <aside class="sky-panel" style={`background-image: url('${skyImg.src}')`}>
+      <a class="sky-mark" href="/" aria-label="AyiTess home">
+        <Logo mono title="" />
+      </a>
+      <Phone />
+    </aside>
+  </div>
+
+  <section class="band" aria-labelledby="reviews-title">
+    <div class="band-narrow">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Reviews</p>
+          <h2 id="reviews-title">What customers wrote</h2>
+          <p class="lede">
+            Google lists {site.legalName} at {site.googleRating} from {site.googleReviewCount} reviews.
+            These are reviews we can quote in full.
+          </p>
+        </div>
+        <a href="/reviews">All reviews</a>
+      </div>
+      <div class="review-grid">
+        {
+          reviews.slice(0, 3).map((review) => (
+            <article class="review-card">
+              <div class="stars" aria-label={`${review.stars} out of 5`}>★★★★★</div>
+              <p>{review.text}</p>
+              <footer>
+                <strong>{review.name}</strong> · {review.dateLabel}
+                <div>{review.topic}</div>
+              </footer>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top: 0" aria-labelledby="areas-title">
+    <div class="band-narrow">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Areas</p>
+          <h2 id="areas-title">Towns we work in</h2>
+          <p class="lede">
+            Day-to-day carpentry and repairs are based around Barnsley and the rest of Yorkshire.
+            Longer moves can be booked further away.
+          </p>
+        </div>
+        <a href="/areas">All areas</a>
+      </div>
+      <div class="area-grid">
+        {
+          areas.map((area) => (
+            <a class="area-card" href={`/areas/${area.slug}`}>
+              <span>{area.county}</span>
+              <strong>{area.name}</strong>
+              <p>{area.drive}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top: 0" aria-labelledby="photos-title">
+    <div class="band-narrow">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">From Google</p>
+          <h2 id="photos-title">Pictures from our Google profile</h2>
+          <p class="lede">These are the images on the AyiTess Google profile, not stock shots dressed up as finished jobs.</p>
+        </div>
+        <a href="/projects">Project pictures</a>
+      </div>
+      <div class="photo-grid">
+        {
+          photos.slice(0, 6).map((photo) => (
+            <figure class="photo-card">
+              <Image src={photo.src} alt={photo.alt} widths={[360, 640]} sizes="(max-width: 980px) 100vw, 33vw" />
+              <figcaption>
+                <strong>{photo.title}</strong>
+                <span>{photo.caption}</span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div>
+      <h2>Tell us the job</h2>
+      <p>Call {site.phoneDisplay}, use the freephone, or send a note. We will say if we can do it.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="button-light" href={`tel:${site.phoneTel}`}>Call {site.phoneDisplay}</a>
+      <a class="button-line" href="/contact">Send the details</a>
+    </div>
+  </section>
+  <Footer />
+</Base>

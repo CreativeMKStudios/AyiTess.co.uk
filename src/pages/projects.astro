@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { photos } from '../data/photos';
+import { breadcrumbSchema, businessSchema } from '../lib/schema';
+---
+
+<Base
+  title="Projects and pictures | AyiTess"
+  description="Pictures from the AyiTess Google profile: handyman work, moves, clearance, scaffolding, maintenance and IT recycling."
+  path="/projects"
+  jsonLd={[
+    businessSchema(),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Projects', path: '/projects' },
+    ]),
+  ]}
+>
+  <Header />
+  <main id="content" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Projects</span>
+    </nav>
+    <p class="eyebrow">Projects</p>
+    <h1>Pictures from the Google profile</h1>
+    <p class="lede">
+      These 11 images are the ones on the AyiTess Google profile. They are the firm’s own adverts, including one clearance photo of a garden waiting to be collected.
+      We have not added fake before-and-after shots or invented client names.
+    </p>
+    <div class="photo-grid" style="margin-top: 28px">
+      {
+        photos.map((photo) => (
+          <figure class="photo-card">
+            <Image src={photo.src} alt={photo.alt} widths={[400, 800]} sizes="(max-width: 980px) 100vw, 33vw" />
+            <figcaption>
+              <strong>{photo.title}</strong>
+              <span>{photo.caption}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+    <p class="lede" style="margin-top: 28px">
+      If you want this kind of work at your place, <a href="/contact">send the details</a> or call 07535 063226.
+    </p>
+  </main>
+  <Footer />
+</Base>

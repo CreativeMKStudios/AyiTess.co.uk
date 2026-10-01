@@ -1,0 +1,42 @@
+---
+import { nav, site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div>
+    <strong>AyiTess Ltd</strong>
+    <p>
+      Carpentry, handyman work, and the other jobs that keep a house or a workplace in order.
+      Based in {site.town}. We come to you.
+    </p>
+    <p>
+      <a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a><br />
+      <a href={`tel:${site.freephoneTel}`}>{site.freephoneDisplay}</a><br />
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </p>
+  </div>
+  <div>
+    <strong>Pages</strong>
+    <ul>
+      {nav.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+  </div>
+  <div>
+    <strong>Elsewhere</strong>
+    <ul>
+      {site.socials.map((item) => (
+        <li><a href={item.href} rel="me noopener">{item.name}</a></li>
+      ))}
+      <li><a href={site.googleProfile} rel="noopener">Google profile</a></li>
+    </ul>
+  </div>
+  <p class="fine">
+    © {year} AyiTess Ltd. Company number {site.companyNumber}. Incorporated 5 March 2022.
+    We do not publish a shop address because the work is done at your property.
+  </p>
+</footer>
