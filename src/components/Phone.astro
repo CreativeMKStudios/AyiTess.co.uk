@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import interior from '../assets/phone-interior.jpg';
+import { site } from '../data/site';
+---
+
+<div class="phone" aria-hidden="false">
+  <div class="phone-screen">
+    <Image
+      src={interior}
+      alt=""
+      class="phone-photo"
+      widths={[480, 720]}
+      sizes="300px"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="phone-scrim"></div>
+    <div class="phone-ui">
+      <div class="status">
+        <span>9:41</span>
+        <span aria-hidden="true">●●● LTE</span>
+      </div>
+      <div class="pills">
+        <a class="pill" href="/contact" aria-label="Open the menu page">Menu</a>
+        <a class="pill" href={`tel:${site.phoneTel}`} aria-label={`Call ${site.phoneDisplay}`}>Call</a>
+        <a class="pill" href="/contact">Book a visit</a>
+      </div>
+      <div class="phone-copy">
+        <h2>We’ve got the job covered</h2>
+        <p>Carpentry, repairs, and the other work a house needs. Based in Barnsley. We come to you.</p>
+      </div>
+      <div class="phone-actions">
+        <a class="btn-solid" href="/contact">Book a visit</a>
+        <a class="btn-ghost" href={`tel:${site.phoneTel}`}>Get a price</a>
+      </div>
+    </div>
+  </div>
+</div>

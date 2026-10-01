@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { breadcrumbSchema, businessSchema } from '../lib/schema';
+---
+
+<Base
+  title="Terms | AyiTess"
+  description="Plain terms for booking carpentry, handyman work, moves and clearances with AyiTess Ltd."
+  path="/terms"
+  jsonLd={[
+    businessSchema(),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Terms', path: '/terms' },
+    ]),
+  ]}
+>
+  <Header />
+  <main id="content" class="page prose">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Terms</span>
+    </nav>
+    <h1>Terms</h1>
+    <p>A price we give from photos is a guide. The price we agree before we start is the price, unless the job itself changes.</p>
+    <p>If we open a wall, lift a floor, or find something we were not told about, we stop and agree the next step with you. We do not add work and invoice it later as a surprise.</p>
+    <p>You can cancel before we have set off. If we have already loaded a van for a move or a clearance, we may charge for the time already used. We will say so before that point.</p>
+    <p>We do not do gas work, house rewires, or fuse boards. We do not take asbestos, chemicals, or other hazardous waste.</p>
+    <p>Access, parking, and any permit are yours to arrange. Tell us about stairs, lifts, and tight turns when you book.</p>
+    <p>These terms are a plain statement of how we book work. They are not a substitute for a written quote on a larger job.</p>
+  </main>
+  <Footer />
+</Base>

@@ -1,0 +1,75 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { services, getService } from '../../data/services';
+import { areas } from '../../data/areas';
+import { breadcrumbSchema, businessSchema, serviceSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug } }));
+}
+
+const { slug } = Astro.params;
+const service = getService(slug || '');
+if (!service) {
+  throw new Error('Missing service');
+}
+const others = services.filter((item) => item.slug !== service.slug).slice(0, 4);
+const title = `${service.name} in Barnsley and Yorkshire | AyiTess`;
+---
+
+<Base
+  title={title}
+  description={service.meta}
+  path={`/services/${service.slug}`}
+  jsonLd={[
+    businessSchema(),
+    serviceSchema(service),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Services', path: '/services' },
+      { name: service.name, path: `/services/${service.slug}` },
+    ]),
+  ]}
+>
+  <Header />
+  <main id="content" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/services">Services</a>
+      <span aria-hidden="true">/</span>
+      <span>{service.name}</span>
+    </nav>
+    <p class="eyebrow">{service.eyebrow}</p>
+    <h1>{service.name}</h1>
+    <div class="two-col" style="margin-top: 18px">
+      <div class="prose">
+        <p>{service.lead}</p>
+        <h2>What this usually includes</h2>
+        <ul class="job-list">
+          {service.jobs.map((job) => <li>{job}</li>)}
+        </ul>
+        <p class="note">{service.note}</p>
+        <h2>Where</h2>
+        <p>
+          This work is booked from Barnsley across
+          {areas.map((area) => area.name).join(', ')},
+          and other Yorkshire towns when the day allows. For a bigger job, tell us the postcode.
+        </p>
+        <p><a href={`/contact?service=${service.slug}`}>Ask for a price for {service.name.toLowerCase()}</a></p>
+      </div>
+      <aside class="info-card">
+        <p class="eyebrow">Other work</p>
+        <ul class="job-list">
+          {others.map((item) => (
+            <li><a href={`/services/${item.slug}`}>{item.name}</a></li>
+          ))}
+        </ul>
+        <p><a href="/areas">Towns we cover</a></p>
+      </aside>
+    </div>
+  </main>
+  <Footer />
+</Base>

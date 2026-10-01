@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import { breadcrumbSchema, businessSchema } from '../lib/schema';
+---
+
+<Base
+  title="Privacy | AyiTess"
+  description="How AyiTess uses the details you send when you ask for a price. No tracking cookies on this site."
+  path="/privacy"
+  jsonLd={[
+    businessSchema(),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Privacy', path: '/privacy' },
+    ]),
+  ]}
+>
+  <Header />
+  <main id="content" class="page prose">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Privacy</span>
+    </nav>
+    <h1>Privacy</h1>
+    <p>
+      This site does not use tracking cookies and it does not run adverts. We do not sell your details.
+    </p>
+    <p>
+      If you call, email, or send the contact form, we use your name, phone, email, town, and the job note to reply and to do the work.
+      The form opens your own email app or WhatsApp. The message then sits in that inbox, and in ours once you send it.
+    </p>
+    <p>
+      We keep job messages for as long as we need them for the booking, the invoice, and any question that follows. You can ask us to delete a message that we no longer need for those reasons. Email {site.email}.
+    </p>
+    <p>
+      AyiTess Ltd, company number {site.companyNumber}, is based in {site.town}. Phone {site.phoneDisplay}.
+    </p>
+  </main>
+  <Footer />
+</Base>

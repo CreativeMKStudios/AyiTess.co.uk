@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { areas, getArea } from '../../data/areas';
+import { services } from '../../data/services';
+import { breadcrumbSchema, businessSchema, faqSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return areas.map((area) => ({ params: { slug: area.slug } }));
+}
+
+const area = getArea(Astro.params.slug || '');
+if (!area) throw new Error('Missing area');
+const title = `Carpenter and handyman in ${area.name} | AyiTess`;
+const description = area.meta;
+---
+
+<Base
+  title={title}
+  description={description}
+  path={`/areas/${area.slug}`}
+  jsonLd={[
+    businessSchema(),
+    faqSchema(area.faqs),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Areas', path: '/areas' },
+      { name: area.name, path: `/areas/${area.slug}` },
+    ]),
+    {
+      '@type': 'Service',
+      name: `Carpentry and handyman in ${area.name}`,
+      areaServed: { '@type': 'City', name: area.name },
+      provider: { '@id': 'https://ayitess.co.uk/#business' },
+      url: `https://ayitess.co.uk/areas/${area.slug}`,
+    },
+  ]}
+>
+  <Header />
+  <main id="content" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/areas">Areas</a>
+      <span aria-hidden="true">/</span>
+      <span>{area.name}</span>
+    </nav>
+    <p class="eyebrow">{area.county}</p>
+    <h1>Carpenter and handyman in {area.name}</h1>
+    <div class="two-col" style="margin-top: 18px">
+      <div class="prose">
+        {area.intro.map((paragraph) => <p>{paragraph}</p>)}
+        <h2>The houses</h2>
+        <p>{area.homes}</p>
+        <h2>The jobs we see here</h2>
+        <p>{area.work}</p>
+        <h2>Places nearby</h2>
+        <p>{area.places.join(', ')}.</p>
+        <p>{area.drive}</p>
+        <h2>Questions</h2>
+        {
+          area.faqs.map((faq) => (
+            <details class="note" style="margin-bottom: 10px">
+              <summary>{faq.q}</summary>
+              <p>{faq.a}</p>
+            </details>
+          ))
+        }
+        <p><a href={`/contact?service=handyman`}>Book a visit in {area.name}</a></p>
+      </div>
+      <aside class="info-card">
+        <p class="eyebrow">Services</p>
+        <ul class="job-list">
+          {services.slice(0, 6).map((service) => (
+            <li><a href={`/services/${service.slug}`}>{service.name}</a></li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+  </main>
+  <Footer />
+</Base>

@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+import { breadcrumbSchema, businessSchema, faqSchema } from '../lib/schema';
+
+const faqs = [
+  {
+    q: 'How do I get a price?',
+    a: 'Call 07535 063226, use WhatsApp, or send the form. Say the town and the job. We price it before we start.',
+  },
+  {
+    q: 'Can I call at the weekend?',
+    a: 'Google lists the business as open 24 hours. If the crew is on a job, leave your name and number and we will ring you back.',
+  },
+  {
+    q: 'Do you have a shop I can visit?',
+    a: 'No. AyiTess is based in Barnsley and the work is done at your property.',
+  },
+  {
+    q: 'What should I send with the enquiry?',
+    a: 'A photo of the problem, the town, and whether there are stairs or tight access. That is usually enough for a first price.',
+  },
+];
+---
+
+<Base
+  title="Contact AyiTess | Call 07535 063226"
+  description="Call AyiTess on 07535 063226 or 0800 002 5565, email info@ayitess.co.uk, or send a job note. Based in Barnsley."
+  path="/contact"
+  jsonLd={[
+    businessSchema(),
+    faqSchema(faqs),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Contact', path: '/contact' },
+    ]),
+  ]}
+>
+  <Header />
+  <main id="content" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Contact</span>
+    </nav>
+    <p class="eyebrow">Contact</p>
+    <h1>Tell us what’s wrong</h1>
+    <div class="two-col" style="margin-top: 18px">
+      <div>
+        <p class="lede">
+          {site.hoursLabel} A photo of the job makes the first price more accurate.
+        </p>
+        <form class="form" data-quote-form novalidate action={`mailto:${site.email}`} method="post" enctype="text/plain">
+          <div class="form-row">
+            <label>Your name
+              <input name="name" autocomplete="name" required />
+            </label>
+            <label>Town
+              <input name="town" autocomplete="address-level2" required />
+            </label>
+          </div>
+          <div class="form-row">
+            <label>Phone
+              <input name="phone" type="tel" autocomplete="tel" />
+            </label>
+            <label>Email
+              <input name="email" type="email" autocomplete="email" />
+            </label>
+          </div>
+          <label>The job
+            <select name="service">
+              <option value="">Choose one</option>
+              {services.map((service) => <option value={service.slug}>{service.name}</option>)}
+              <option value="other">Something else</option>
+            </select>
+          </label>
+          <label>What needs doing
+            <textarea name="message" required></textarea>
+          </label>
+          <p class="form-error" data-form-error hidden></p>
+          <div class="cta-actions">
+            <button class="button button-dark" type="submit" data-via="email">Send by email</button>
+            <button class="button button-light" type="submit" data-via="whatsapp" style="box-shadow: inset 0 0 0 1.5px #d5dbe3">Send by WhatsApp</button>
+          </div>
+          <p class="meta-line" data-form-note hidden>Your email app or WhatsApp should open with the message ready. If it does not, call us.</p>
+          <p class="meta-line">We use this only to reply about the job. See the <a href="/privacy">privacy note</a>.</p>
+        </form>
+        <noscript>
+          <p>Email <a href={`mailto:${site.email}`}>{site.email}</a> or call {site.phoneDisplay}.</p>
+        </noscript>
+      </div>
+      <aside class="info-card contact-card">
+        <p class="eyebrow">Call</p>
+        <p><a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a></p>
+        <p><a href={`tel:${site.freephoneTel}`}>{site.freephoneDisplay}</a></p>
+        <p><a href={site.whatsapp}>WhatsApp</a></p>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p><a href={`mailto:${site.supportEmail}`}>{site.supportEmail}</a></p>
+        <p class="meta-line">Based in {site.town}, {site.region}. No shop address.</p>
+        <p class="meta-line"><a href={site.googleProfile}>Google profile</a> · <a href={site.socials[0].href}>Facebook</a></p>
+      </aside>
+    </div>
+    <h2 style="margin-top: 40px">Common questions</h2>
+    <div class="prose">
+      {
+        faqs.map((faq) => (
+          <details class="note" style="margin-top: 10px">
+            <summary>{faq.q}</summary>
+            <p>{faq.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </main>
+  <Footer />
+</Base>

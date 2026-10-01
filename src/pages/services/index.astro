@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { services } from '../../data/services';
+import { breadcrumbSchema, businessSchema } from '../../lib/schema';
+---
+
+<Base
+  title="Services | Carpentry, handyman and property work | AyiTess"
+  description="Carpentry, handyman repairs, painting, snagging, jet washing, moves, clearance and cleaning. AyiTess, based in Barnsley."
+  path="/services"
+  jsonLd={[
+    businessSchema(),
+    breadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Services', path: '/services' },
+    ]),
+  ]}
+>
+  <Header />
+  <main id="content" class="page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span>Services</span>
+    </nav>
+    <p class="eyebrow">Services</p>
+    <h1>The work we take on</h1>
+    <p class="lede">
+      Start with the job, not a department name. If it is on this list, ask. If it is not, ask anyway. We will say no when it is not our work.
+    </p>
+    <div class="card-grid" style="margin-top: 28px">
+      {
+        services.map((service) => (
+          <a class="service-card" href={`/services/${service.slug}`}>
+            <span>{service.eyebrow}</span>
+            <strong>{service.name}</strong>
+            <p>{service.summary}</p>
+          </a>
+        ))
+      }
+    </div>
+  </main>
+  <Footer />
+</Base>
